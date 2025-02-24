@@ -1,25 +1,29 @@
-"use client"
-
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "./ui/button"
-import { MoreHorizontal } from "lucide-react"
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog"
-import { useState } from "react"
-import { Row } from "@tanstack/react-table"
-import { Input } from "./ui/input"
-import { Payment } from "@/utils/data"
-import { Label } from "./ui/label"
+import { useState } from "react";
+import { Row } from "@tanstack/react-table";
+import { Payment } from "@/utils/data";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "./ui/button";
+import { MoreHorizontal } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DialogForm } from "./dialog-form";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { Dispatch } from "react";
+import { SetStateAction } from "react";
 
 interface ActionsMenuProps {
+    onDeleted: (id: number) => void;
+    setData: Dispatch<SetStateAction<Payment[]>>;
     row: Row<Payment>;
 }
 
-export const ActionsMenu: React.FC<ActionsMenuProps> = ({ row }) => {
+export const ActionsMenu: React.FC<ActionsMenuProps> = ({ onDeleted, setData, row }) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const { id, ...fields } = row.original;
-    const fieldsListKeys = Object.keys(fields);
 
+    const onUpdateRow = (data: Payment) => {
+        setData((prev) => prev.map((item) => (item.id === data.id ? data : item)));
+    }
     return (
         <>
             <DropdownMenu>
@@ -37,41 +41,24 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({ row }) => {
                         Copy user ID
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => onDeleted(row.original.id)}>
+                        Delete user
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setDialogOpen(true)}>
-                        Change amount
+                        Update user
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Dialog to update the amount */}
             <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
                     <Button variant="ghost" className="hidden" />
                 </DialogTrigger>
-                <DialogContent>
-                    <DialogTitle>Update value</DialogTitle>
-                    <div>
-                        {fieldsListKeys.map((key) => (
-                            <div key={key} className="field-container">
-                                <Label>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
-                                <Input  />
-                            </div>
-                        ))}
-                    </div>
-
-                    <DialogDescription>
-                        You can change the value of table
-                    </DialogDescription>
-                    <DialogFooter>
-                        <Button onClick={() => {
-                            row.original.amount = 52
-                            setDialogOpen(false)
-                        }
-                        }>Update</Button>
-                        <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
-                        </DialogClose>
-                    </DialogFooter>
+                <DialogContent autoFocus={false}>
+                    <DialogTitle>Update</DialogTitle>
+                    <DialogDescription>Update value for user with id: {id}</DialogDescription>
+                    <DialogForm id={id} onUpdateRow={onUpdateRow} initialValues={fields} onClose={() => setDialogOpen(false)} />
                 </DialogContent>
             </Dialog>
         </>

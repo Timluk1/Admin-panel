@@ -36,7 +36,7 @@ export default function RootLayout({
                     <SidebarProvider>
                         <AppSidebar />
                         <SidebarTrigger />
-                        <main className="w-full flex justify-center px-32 py-20">
+                        <main className="w-full flex justify-center px-10 py-20">
                             {children}
                         </main>
                     </SidebarProvider>
