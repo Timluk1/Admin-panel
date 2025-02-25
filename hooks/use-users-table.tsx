@@ -16,6 +16,7 @@ const useUsersTable = () => {
             duration: 2000,
             style: {
                 background: "green",
+                color: "white",
             },
             action: {
                 label: "Undo",
