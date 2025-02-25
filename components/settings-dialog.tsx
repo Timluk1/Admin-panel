@@ -28,8 +28,8 @@ export const SettingsDialog = () => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Settings</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="mb-5">Settings</DialogTitle>
+                    <DialogDescription className="mb-4">
                         Here you can customize the app for yourself.
                     </DialogDescription>
                 </DialogHeader>

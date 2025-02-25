@@ -10,10 +10,11 @@ import type { typeFormField } from "@/utils/dialog-form-data";
 
 interface DialogFormProps {
     initialValues?: typeFormField;
+    textSubmitButton: string
     onSubmit: (data: typeFormField) => void;
 }
 
-export const DialogForm: React.FC<DialogFormProps> = ({ onSubmit, initialValues }) => {
+export const DialogForm: React.FC<DialogFormProps> = ({ onSubmit, textSubmitButton, initialValues }) => {
     const form = useForm<typeFormField>({
         resolver: zodResolver(FormSchema),
         defaultValues: initialValues,
@@ -54,7 +55,7 @@ export const DialogForm: React.FC<DialogFormProps> = ({ onSubmit, initialValues 
                     ))}
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Update</Button>
+                    <Button type="submit">{textSubmitButton}</Button>
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>

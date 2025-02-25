@@ -70,8 +70,8 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({ onDeleted, setData, ro
             <Dialog open={isOpen} onOpenChange={toggleDialog}>
                 <DialogContent autoFocus={false}>
                     <DialogTitle>Update</DialogTitle>
-                    <DialogDescription>Update value for user with id: {id}</DialogDescription>
-                    <DialogForm initialValues={fields} onSubmit={onSubmit} />
+                    <DialogDescription className="text-center">Update value for user with id: {id}</DialogDescription>
+                    <DialogForm initialValues={fields} textSubmitButton="Update" onSubmit={onSubmit} />
                 </DialogContent>
             </Dialog>
         </>
