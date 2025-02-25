@@ -1,49 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { capitalize } from "@/utils/capitalize";
 import { Button } from "./ui/button";
-import {
-    Form, FormControl, FormField, FormItem, FormLabel, FormMessage
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { DialogFooter, DialogClose } from "./ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Payment, typeStatus } from "@/utils/data";
-
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
-const FormSchema = z.object({
-    status: z.enum(["pending", "processing", "success", "failed"], { message: "Invalid status" }),
-    email: z.string().email(),
-    amount: z.number().positive(),
-});
-
-const formFields = [
-    { name: "status", type: "text" },
-    { name: "email", type: "email" },
-    { name: "amount", type: "number" },
-] as const;
+import { FormSchema, formFields } from "@/utils/dialog-form-data";
+import type { typeFormField } from "@/utils/dialog-form-data";
 
 interface DialogFormProps {
-    id: number;
-    initialValues: {
-        status: typeStatus;
-        email: string;
-        amount: number;
-    };
-    onUpdateRow: (data: Payment) => void;
-    onClose: () => void;
+    initialValues?: typeFormField;
+    onSubmit: (data: typeFormField) => void;
 }
 
-export const DialogForm: React.FC<DialogFormProps> = ({ id, initialValues, onUpdateRow, onClose }) => {
-    const form = useForm<z.infer<typeof FormSchema>>({
+export const DialogForm: React.FC<DialogFormProps> = ({ onSubmit, initialValues }) => {
+    const form = useForm<typeFormField>({
         resolver: zodResolver(FormSchema),
         defaultValues: initialValues,
     });
-
-    const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        onUpdateRow({ id, ...data } as Payment);
-        onClose();
-    };
 
     return (
         <Form {...form}>
@@ -62,7 +36,15 @@ export const DialogForm: React.FC<DialogFormProps> = ({ id, initialValues, onUpd
                                             placeholder={capitalize(name)}
                                             {...field}
                                             type={type}
-                                            onChange={(e) => field.onChange(type === "number" ? Number(e.target.value) || 0 : e.target.value)}
+                                            value={field.value ?? ""}  
+                                            onChange={(e) => {
+                                                if (type === "number") {
+                                                    const value = e.target.value ? parseFloat(e.target.value) : null;
+                                                    field.onChange(value);
+                                                } else {
+                                                    field.onChange(e.target.value);
+                                                }
+                                            }}
                                         />
                                     </FormControl>
                                     <FormMessage />

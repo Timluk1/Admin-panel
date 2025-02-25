@@ -1,9 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
-
 import {
-    ColumnDef,
     flexRender,
     getCoreRowModel,
     useReactTable,
@@ -20,50 +17,17 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
-
-import { dat, Payment } from "@/utils/data"
-import { ActionsMenu } from "./action-menu"
+import { Payment } from "@/utils/data"
+import { ColumnDef } from "@tanstack/react-table"
 
 interface ITableComponentProps {
     sorting: SortingState,
     setSorting: OnChangeFn<SortingState>;
+    data: Payment[];
+    columns: ColumnDef<Payment>[];
 }
 
-export const TableComponent = ({ sorting, setSorting }: ITableComponentProps) => {
-    const [data, setData] = useState<Payment[]>(dat);
-
-    const onDeleted = (id: number) => {
-        setData((prev) => prev.filter((item) => item.id !== id));
-    }
-
-    const columns: ColumnDef<Payment>[] = useMemo(
-        () => [
-            {
-                accessorKey: "id",
-                header: "ID",
-            },
-            {
-                accessorKey: "status",
-                header: "Status",
-            },
-            {
-                accessorKey: "email",
-                header: "Email",
-            },
-            {
-                accessorKey: "amount",
-                header: "Amount",
-            },
-            {
-                id: "actions",
-                enableHiding: false,
-                cell: ({ row }) => <ActionsMenu setData={setData} onDeleted={onDeleted} row={row}/>,
-            },
-        ],
-        []
-    );
-
+export const TableComponent = ({ data, columns, sorting, setSorting }: ITableComponentProps) => {
     const table = useReactTable({
         data,
         columns,

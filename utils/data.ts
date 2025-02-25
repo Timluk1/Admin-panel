@@ -9,7 +9,7 @@ export type Payment = {
 
 export const keys = ["id", "amount", "status", "email"]
 
-export const dat: Payment[] = [
+export const initialData: Payment[] = [
     { id: 1, amount: 150, status: "processing", email: "john.doe@example.com" },
     { id: 2, amount: 250, status: "failed", email: "mary.smith@example.com" },
     { id: 3, amount: 1200, status: "success", email: "jane.doe@example.com" },

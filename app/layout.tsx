@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { cn } from "@/lib/utils";
 import { ThemeContext } from "@/components/ThemeContext";
+import { Toaster } from "@/components/ui/sonner"
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,6 +35,7 @@ export default function RootLayout({
             >
                 <ThemeContext.Provider value={{ theme, setTheme }}>
                     <SidebarProvider>
+                        <Toaster />
                         <AppSidebar />
                         <SidebarTrigger />
                         <main className="w-full flex justify-center px-10 py-20">
