@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     flexRender,
@@ -6,8 +6,8 @@ import {
     useReactTable,
     getSortedRowModel,
     SortingState,
-    OnChangeFn
-} from "@tanstack/react-table"
+    OnChangeFn,
+} from "@tanstack/react-table";
 
 import {
     Table,
@@ -16,18 +16,23 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import { Payment } from "@/utils/data"
-import { ColumnDef } from "@tanstack/react-table"
+} from "@/components/ui/table";
+import { Payment } from "@/utils/data";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface ITableComponentProps {
-    sorting: SortingState,
+    sorting: SortingState;
     setSorting: OnChangeFn<SortingState>;
     data: Payment[];
     columns: ColumnDef<Payment>[];
 }
 
-export const TableComponent = ({ data, columns, sorting, setSorting }: ITableComponentProps) => {
+export const TableComponent = ({
+    data,
+    columns,
+    sorting,
+    setSorting,
+}: ITableComponentProps) => {
     const table = useReactTable({
         data,
         columns,
@@ -46,7 +51,10 @@ export const TableComponent = ({ data, columns, sorting, setSorting }: ITableCom
                             <TableHead key={header.id}>
                                 {header.isPlaceholder
                                     ? null
-                                    : flexRender(header.column.columnDef.header, header.getContext())}
+                                    : flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext(),
+                                      )}
                             </TableHead>
                         ))}
                     </TableRow>
@@ -55,17 +63,26 @@ export const TableComponent = ({ data, columns, sorting, setSorting }: ITableCom
             <TableBody>
                 {table.getRowModel().rows?.length ? (
                     table.getRowModel().rows.map((row) => (
-                        <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                        <TableRow
+                            key={row.id}
+                            data-state={row.getIsSelected() && "selected"}
+                        >
                             {row.getVisibleCells().map((cell) => (
                                 <TableCell key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext(),
+                                    )}
                                 </TableCell>
                             ))}
                         </TableRow>
                     ))
                 ) : (
                     <TableRow>
-                        <TableCell colSpan={columns.length} className="h-24 text-center">
+                        <TableCell
+                            colSpan={columns.length}
+                            className="h-24 text-center"
+                        >
                             No results.
                         </TableCell>
                     </TableRow>
@@ -74,6 +91,3 @@ export const TableComponent = ({ data, columns, sorting, setSorting }: ITableCom
         </Table>
     );
 };
-
-
-

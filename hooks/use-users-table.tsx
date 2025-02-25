@@ -24,8 +24,7 @@ const useUsersTable = () => {
                 },
             },
         });
-
-    }
+    };
 
     const columns: ColumnDef<Payment>[] = [
         {
@@ -47,11 +46,17 @@ const useUsersTable = () => {
         {
             id: "actions",
             enableHiding: false,
-            cell: ({ row }) => <ActionsMenu setData={setData} onDeleted={onDeleted} row={row} />,
+            cell: ({ row }) => (
+                <ActionsMenu
+                    setData={setData}
+                    onDeleted={onDeleted}
+                    row={row}
+                />
+            ),
         },
-    ]
+    ];
 
     return { data, setData, columns, onDeleted };
-}
+};
 
 export { useUsersTable };

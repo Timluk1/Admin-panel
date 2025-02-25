@@ -4,7 +4,14 @@ import { Payment } from "@/utils/data";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { DialogForm } from "./dialog-form";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Dispatch } from "react";
@@ -18,15 +25,21 @@ interface ActionsMenuProps {
     row: Row<Payment>;
 }
 
-export const ActionsMenu: React.FC<ActionsMenuProps> = ({ onDeleted, setData, row }) => {
-    const { isOpen, toggleDialog} = useDialog();
+export const ActionsMenu: React.FC<ActionsMenuProps> = ({
+    onDeleted,
+    setData,
+    row,
+}) => {
+    const { isOpen, toggleDialog } = useDialog();
 
     const { id, ...fields } = row.original;
 
     const onSubmit = (data: typeFormField) => {
-        setData((prev) => prev.map((item) => (item.id === id ? {id, ...data} : item)));
+        setData((prev) =>
+            prev.map((item) => (item.id === id ? { id, ...data } : item)),
+        );
         toggleDialog();
-    }
+    };
 
     const onCopyText = () => {
         navigator.clipboard.writeText(String(row.id));
@@ -39,7 +52,6 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({ onDeleted, setData, ro
         });
     };
 
-
     return (
         <>
             <DropdownMenu>
@@ -51,13 +63,13 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({ onDeleted, setData, ro
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem
-                        onClick={onCopyText}
-                    >
+                    <DropdownMenuItem onClick={onCopyText}>
                         Copy user ID
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => onDeleted(row.original.id)}>
+                    <DropdownMenuItem
+                        onClick={() => onDeleted(row.original.id)}
+                    >
                         Delete user
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -70,8 +82,14 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({ onDeleted, setData, ro
             <Dialog open={isOpen} onOpenChange={toggleDialog}>
                 <DialogContent autoFocus={false}>
                     <DialogTitle>Update</DialogTitle>
-                    <DialogDescription className="text-center">Update value for user with id: {id}</DialogDescription>
-                    <DialogForm initialValues={fields} textSubmitButton="Update" onSubmit={onSubmit} />
+                    <DialogDescription className="text-center">
+                        Update value for user with id: {id}
+                    </DialogDescription>
+                    <DialogForm
+                        initialValues={fields}
+                        textSubmitButton="Update"
+                        onSubmit={onSubmit}
+                    />
                 </DialogContent>
             </Dialog>
         </>

@@ -1,38 +1,30 @@
 "use client";
 
-import { useState } from "react";
 import {
     Dialog,
-    DialogTrigger,
     DialogContent,
     DialogHeader,
     DialogDescription,
     DialogTitle,
-} from "@/components/ui/dialog";
-import { SidebarMenuButton } from "./ui/sidebar";
-import { Settings } from "lucide-react";
+} from "@/components/ui/dialog"
 import { ThemeSelect } from "./theme-select";
 
-export const SettingsDialog = () => {
-    const [open, setOpen] = useState(false);
+interface ISettingsDialogProps {
+    isOpen: boolean;
+    onOpenChange: () => void;
+}
 
-    const handleOpen = () => setOpen(true);
-
+export const SettingsDialog: React.FC<ISettingsDialogProps> = ({ isOpen, onOpenChange }) => {
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <SidebarMenuButton onClick={handleOpen}>
-                    <Settings />
-                    Settings
-                </SidebarMenuButton>
-            </DialogTrigger>
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="mb-5">Settings</DialogTitle>
-                    <DialogDescription className="mb-4">
-                        Here you can customize the app for yourself.
-                    </DialogDescription>
                 </DialogHeader>
+
+                <DialogDescription className="mb-4">
+                    Here you can customize the app for yourself.
+                </DialogDescription>
 
                 <ThemeSelect />
             </DialogContent>

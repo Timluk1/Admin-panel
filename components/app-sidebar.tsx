@@ -12,20 +12,30 @@ import {
     SidebarTrigger,
     SidebarSeparator,
     useSidebar,
-    SidebarMenuButton
+    SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
-import Link from "next/link"
+import Link from "next/link";
 
-import { User, Settings, LogOut, LayoutDashboard, Activity } from "lucide-react";
+import {
+    User,
+    Settings,
+    LogOut,
+    LayoutDashboard,
+    Activity,
+} from "lucide-react";
 
 import { SettingsDialog } from "./settings-dialog";
+import { useDialog } from "@/hooks/use-dialog";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar() {
     const { open, isMobile } = useSidebar();
+    const { isOpen, toggleDialog} = useDialog();
 
     return (
-        <Sidebar collapsible="icon" {...props}>
+        <Sidebar collapsible="icon">
+            <SettingsDialog isOpen={isOpen} onOpenChange={toggleDialog}/>
+            
             <SidebarHeader>
                 {open && isMobile && <SidebarTrigger />}
             </SidebarHeader>
@@ -56,7 +66,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarContent>
 
             <SidebarFooter>
-                <SettingsDialog />
+
+                <SidebarMenuButton onClick={toggleDialog}>
+                    <Settings />
+                    Settings
+                </SidebarMenuButton>
+
                 <SidebarMenuButton>
                     <LogOut />
                     Logout

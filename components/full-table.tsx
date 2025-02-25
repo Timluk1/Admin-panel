@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { SelectSort } from "./select-sort"
-import { TableComponent } from "./table"
+import { SelectSort } from "./select-sort";
+import { TableComponent } from "./table";
 import { DialogCreateUser } from "./dialog-create-user";
 import { useState } from "react";
 import { SortingState } from "@tanstack/react-table";
@@ -12,7 +12,9 @@ import { useUsersTable } from "@/hooks/use-users-table";
 import { typeFormField } from "@/utils/dialog-form-data";
 
 export const FullTable = () => {
-    const [sorting, setSorting] = useState<SortingState>([{ id: "id", desc: false }]);
+    const [sorting, setSorting] = useState<SortingState>([
+        { id: "id", desc: false },
+    ]);
     const { isOpen, toggleDialog } = useDialog();
     const { data, setData, columns } = useUsersTable();
 
@@ -26,7 +28,6 @@ export const FullTable = () => {
         toggleDialog();
     };
 
-
     const selectSortProps = {
         onSortItemChange,
         sortBy: sorting[0].id,
@@ -36,12 +37,21 @@ export const FullTable = () => {
 
     return (
         <div className="w-full">
-            <DialogCreateUser onSubmit={onSubmit} isOpen={isOpen} setIsOpen={toggleDialog} />
-            <div className="flex justify-between items-center mb-5">
+            <DialogCreateUser
+                onSubmit={onSubmit}
+                isOpen={isOpen}
+                setIsOpen={toggleDialog}
+            />
+            <div className="flex justify-between items-center mb-5 max-sm:flex-col max-sm:items-start gap-3">
                 <SelectSort {...selectSortProps} />
                 <Button onClick={toggleDialog}>Create user</Button>
             </div>
-            <TableComponent data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
+            <TableComponent
+                data={data}
+                columns={columns}
+                sorting={sorting}
+                setSorting={setSorting}
+            />
         </div>
     );
 };
