@@ -29,13 +29,13 @@ import { SettingsDialog } from "./settings-dialog";
 import { useDialog } from "@/hooks/use-dialog";
 
 export function AppSidebar() {
-    const { open, isMobile } = useSidebar();
-    const { isOpen, toggleDialog} = useDialog();
+    const { open, isMobile, toggleSidebar } = useSidebar();
+    const { isOpen, toggleDialog } = useDialog();
 
     return (
         <Sidebar collapsible="icon">
-            <SettingsDialog isOpen={isOpen} onOpenChange={toggleDialog}/>
-            
+            <SettingsDialog isOpen={isOpen} onOpenChange={toggleDialog} />
+
             <SidebarHeader>
                 {open && isMobile && <SidebarTrigger />}
             </SidebarHeader>
@@ -48,7 +48,7 @@ export function AppSidebar() {
                         <LayoutDashboard />
                         Dashboard
                     </SidebarMenuButton>
-                    <Link href="/users">
+                    <Link href="/users" onClick={toggleSidebar}>
                         <SidebarMenuButton>
                             <User />
                             Users

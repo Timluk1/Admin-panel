@@ -15,7 +15,7 @@ const useUsersTable = () => {
             description: `User: ${item.email}`,
             duration: 2000,
             style: {
-                background: "green",
+                background: "red",
                 color: "white",
             },
             action: {
